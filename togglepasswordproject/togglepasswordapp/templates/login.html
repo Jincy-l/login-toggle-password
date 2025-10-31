@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simple Login with Toggle Password</title>
+  <style>
+    /* Simple centered card */
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: #f2f4f8;
+    }
+
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(20, 30, 50, 0.08);
+      width: 340px;
+    }
+
+    h2 { margin: 0 0 18px 0; font-size: 20px; }
+    label { display: block; font-size: 13px; margin-bottom: 6px; color: #333; }
+    .input-row { margin-bottom: 12px; position: relative; }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #d8dee7;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    /* password toggle button inside input */
+    .toggle-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 6px;
+      line-height: 1;
+    }
+
+    .actions {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin-top: 12px;
+    }
+
+    button[type="submit"] {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .note {
+      font-size: 12px;
+      color: #6b7280;
+      text-align:center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <form class="card" id="loginForm" onsubmit="handleSubmit(event)">
+    <h2>Login</h2>
+
+    <div class="input-row">
+      <label for="username">Username or email</label>
+      <input id="username" name="username" type="text" autocomplete="username" placeholder="you@example.com" required />
+    </div>
+
+    <div class="input-row">
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter password" required />
+      <button type="button" class="toggle-btn" id="togglePassword" aria-label="Show password" title="Show password">
+        👁️
+      </button>
+    </div>
+
+    <div class="actions">
+      <button type="submit">Sign in</button>
+    </div>
+
+    
+  </form>
+
+  <script>
+    // Toggle password visibility
+    const passwordInput = document.getElementById('password');
+    const toggleBtn = document.getElementById('togglePassword');
+
+    toggleBtn.addEventListener('click', () => {
+      const isHidden = passwordInput.type === 'password';
+      passwordInput.type = isHidden ? 'text' : 'password';
+      // update accessible label and icon
+      toggleBtn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+      toggleBtn.title = isHidden ? 'Hide password' : 'Show password';
+      toggleBtn.textContent = isHidden ? '🙈' : '👁️'; // change icon
+    });
+
+    // Simple submit handler (demo). Replace with real authentication call.
+    function handleSubmit(e) {
+      e.preventDefault();
+      const data = {
+        username: document.getElementById('username').value.trim(),
+        password: document.getElementById('password').value
+      };
+      // For demo we just log — DO NOT log real passwords in production.
+      console.log('Login attempt:', data);
+      alert('Form submitted (demo). Check console for values.');
+      // Here you would send `data` to your server (fetch / XMLHttpRequest).
+    }
+  </script>
+</body>
+</html>
