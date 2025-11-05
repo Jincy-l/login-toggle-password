@@ -37,4 +37,7 @@ def register_view(request):
 
     return render(request, 'register.html')
 
+def success(request):
+    return render(request,'success.html')
+
     
