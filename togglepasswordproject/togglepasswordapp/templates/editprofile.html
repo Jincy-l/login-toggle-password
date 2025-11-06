@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Profile</title>
+
+  <!-- ✅ Font Awesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="sha512-KfkfwYDsLkIlwQp6LFm7KZr5l9e7H6PvFw4lYB+7cP1dYz8zDhV7r5Rz8jQ5D1S/xI2v+nWZKxA1h6sZlZr9rA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .edit-container {
+      background: #fff;
+      padding: 25px 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 420px;
+    }
+
+    .edit-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+      margin-top: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 80px;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .profile-pic-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+    }
+
+    .profile-pic-preview {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ddd;
+      display: block;
+    }
+
+    .edit-icon {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background-color: #007bff;
+      color: white;
+      border-radius: 50%;
+      padding: 8px;
+      cursor: pointer;
+      border: 2px solid white;
+      transition: background 0.3s;
+    }
+
+    .edit-icon:hover {
+      background-color: #0056b3;
+    }
+
+    .file-upload {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8f9fa;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .file-upload i {
+      color: #007bff;
+      font-size: 18px;
+      transition: color 0.3s;
+    }
+
+    .file-upload:hover i {
+      color: #0056b3;
+    }
+
+    .file-name {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .btn-container {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button {
+      flex: 1;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .cancel-btn {
+      background-color: #6c757d;
+    }
+
+    .cancel-btn:hover {
+      background-color: #565e64;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="edit-container">
+    <h2>Edit Profile</h2>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <!-- Profile Picture -->
+      <label for="profile_pic">Profile Picture</label>
+      <div class="profile-pic-container">
+        <img
+          id="preview"
+          class="profile-pic-preview"
+          src="{{ user.profile_pic.url }}"
+          alt="Profile Preview"
+          onerror="this.src='https://via.placeholder.com/120';"
+        >
+        <label for="profile_pic" class="edit-icon">
+          <i class="fa fa-pen"></i>
+        </label>
+        <input type="file" id="profile_pic" name="profile_pic" accept="image/*" onchange="previewImage(event)">
+      </div>
+
+      <!-- Full Name -->
+      <label for="name">Full Name</label>
+      <input type="text" name="name" value="{{ user.name }}" required>
+
+      <!-- Date of Birth -->
+      <label for="dob">Date of Birth</label>
+      <input type="date" name="dob" value="{{ user.dob|date:'Y-m-d' }}" required>
+
+      <!-- Email -->
+      <label for="email">Email</label>
+      <input type="email" name="email" value="{{ user.email }}" required>
+
+      <!-- Password -->
+      <label for="password">New Password (optional)</label>
+      <input type="password" name="password" placeholder="Leave blank to keep current password">
+
+      <!-- Resume -->
+      <label for="resume">Update Resume</label>
+      <label class="file-upload" for="resume">
+        <span class="file-name" id="resume-name">
+          {% if user.resume %}
+            {{ user.resume.name|basename }}
+          {% else %}
+            No file chosen
+          {% endif %}
+        </span>
+        <i class="fa fa-pen"></i>
+      </label>
+      <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" onchange="showFileName(event)">
+
+      <!-- Address -->
+      <label for="address">Address</label>
+      <textarea name="address" required>{{ user.address }}</textarea>
+
+      <div class="btn-container">
+        <button type="submit">Save Changes</button>
+        <button type="button" class="cancel-btn" onclick="window.location.href='{% url 'profile' %}'">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function previewImage(event) {
+      const preview = document.getElementById('preview');
+      preview.src = URL.createObjectURL(event.target.files[0]);
+    }
+
+    function showFileName(event) {
+      const fileName = event.target.files[0].name;
+      document.getElementById('resume-name').textContent = fileName;
+    }
+  </script>
+</body>
+</html>

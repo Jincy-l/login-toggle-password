@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile View</title>
+
+  <!-- ✅ Font Awesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="sha512-KfkfwYDsLkIlwQp6LFm7KZr5l9e7H6PvFw4lYB+7cP1dYz8zDhV7r5Rz8jQ5D1S/xI2v+nWZKxA1h6sZlZr9rA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .profile-container {
+      background: #fff;
+      padding: 25px 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 420px;
+    }
+
+    .profile-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .profile-pic-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 15px;
+    }
+
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ddd;
+      display: block;
+    }
+
+    .details label {
+      font-weight: bold;
+      display: block;
+      color: #333;
+      margin-top: 15px;
+    }
+
+    .details p {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      color: #555;
+      margin-top: 5px;
+      font-size: 15px;
+    }
+
+    .resume-link {
+      display: inline-block;
+      margin-top: 5px;
+      background-color: #007bff;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+
+    .resume-link:hover {
+      background-color: #0056b3;
+    }
+
+    .back-btn {
+      margin-top: 25px;
+      width: 100%;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .back-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="profile-container">
+    <h2>User Profile</h2>
+
+    <!-- Profile Picture -->
+    <div class="profile-pic-container">
+      <img
+        src="{{ user.profile_pic.url }}"
+        alt="Profile Picture"
+        class="profile-pic"
+        onerror="this.src='https://via.placeholder.com/120';"
+      />
+    </div>
+
+    <!-- User Details -->
+    <div class="details">
+      <label>Full Name:</label>
+      <p>{{ user.name }}</p>
+
+      <label>Date of Birth:</label>
+      <p>{{ user.dob }}</p>
+
+      <label>Email:</label>
+      <p>{{ user.email }}</p>
+
+      <label>Address:</label>
+      <p>{{ user.address }}</p>
+
+      <label>Resume:</label>
+      {% if user.resume %}
+      <a href="{{ user.resume.url }}" target="_blank" class="resume-link">
+        <i class="fa fa-download"></i> View Resume
+      </a>
+      {% else %}
+      <p>No resume uploaded</p>
+      {% endif %}
+    </div>
+
+    <button class="back-btn" onclick="window.history.back()">
+      <i class="fa fa-arrow-left"></i> Back
+    </button>
+  </div>
+</body>
+</html>

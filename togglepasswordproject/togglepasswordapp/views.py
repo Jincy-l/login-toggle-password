@@ -39,5 +39,9 @@ def register_view(request):
 
 def success(request):
     return render(request,'success.html')
+def profile_view(request):
+    return render(request,'profileview.html')
+def edit_profile(request):
+    return render(request,"editprofile.html")
 
     
