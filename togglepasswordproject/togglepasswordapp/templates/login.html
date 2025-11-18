@@ -108,6 +108,7 @@
 
    <div class="actions">
   <a href="{% url 'login' %}" class="btn">Sign in</a>
+  
 </div>
 
    <div class="actions" style="display: flex; justify-content: center;">
@@ -141,8 +142,8 @@
         password: document.getElementById('password').value
       };
       // For demo we just log — DO NOT log real passwords in production.
-      console.log('Login attempt:', data);
-      alert('Form submitted (demo). Check console for values.');
+//console.log('Login attempt:', data);
+      //alert('Form submitted (demo). Check console for values.');//
       // Here you would send `data` to your server (fetch / XMLHttpRequest).
     }
   </script>

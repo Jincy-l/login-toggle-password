@@ -14,7 +14,7 @@ def login(request):
         try:
             user = Register.objects.get(email=email, password=password)
             request.session["email"] = user.email
-            return redirect("profile")
+            return redirect("profileview")
         except ObjectDoesNotExist:
             messages.error(request, "Invalid email or password!")
             return redirect("login")
