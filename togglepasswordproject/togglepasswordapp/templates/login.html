@@ -76,6 +76,16 @@
       text-align:center;
       margin-top: 10px;
     }
+
+    .btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
   </style>
 </head>
 <body>
@@ -96,9 +106,10 @@
       </button>
     </div>
 
-    <div class="actions">
-      <button type="submit">Sign in</button>
-    </div>
+   <div class="actions">
+  <a href="{% url 'login' %}" class="btn">Sign in</a>
+</div>
+
    <div class="actions" style="display: flex; justify-content: center;">
       <a href="{% url 'register' %}"
    style="text-decoration: none; color: #007bff; font-weight: bold; transition: 0.3s;">
